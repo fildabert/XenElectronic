@@ -14,9 +14,9 @@ const itemsSchema = new Schema({
 
 const cartSchema = new Schema(
   {
-    userId: {
+    username: {
       type: String,
-      default: 'mockUserId',
+      required: true,
     },
     items: {
       type: [itemsSchema],

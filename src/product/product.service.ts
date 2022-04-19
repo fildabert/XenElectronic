@@ -6,10 +6,10 @@ const createProduct = async (product: Product): Promise<Product> => {
   return result;
 };
 
-const getProducts = async(): Promise<Product[]> => {
-  const result = productRepository.getProducts();
+const getProducts = async (): Promise<Product[]> => {
+  const result = await productRepository.getProducts();
   return result;
-}
+};
 
 const productService = { createProduct, getProducts };
 

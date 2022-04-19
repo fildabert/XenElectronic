@@ -5,19 +5,19 @@ import AppError from '../error';
 
 const convertDocumentToObject = (document: CartDocument) => document.toObject({ getters: true }) as Cart;
 
-const findCart = async (userId: string): Promise<Cart | null> => {
-  const cart = await CartModel.findOne({ userId, status: CartStatus.ACTIVE });
+const findCart = async (username: string): Promise<Cart | null> => {
+  const cart = await CartModel.findOne({ username, status: CartStatus.ACTIVE });
   return cart && convertDocumentToObject(cart);
 };
 
 const createCart = async (payload: CreateCartPayload) => {
-  const existingCart = await findCart(payload.userId);
+  const existingCart = await findCart(payload.username);
   if (existingCart) {
     throw new AppError(400, 'There is already an existing active cart for this user');
   }
 
   const result = await CartModel.create({
-    userId: payload.userId,
+    username: payload.username,
     items: payload.items,
     status: CartStatus.ACTIVE,
   });

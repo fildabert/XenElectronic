@@ -13,7 +13,7 @@ interface ProductPayload {
   quantity: number;
 }
 interface CreateCartPayload {
-  userId: string,
+  username: string,
   items: ProductPayload[]
 }
 interface Item extends Product{
@@ -21,7 +21,7 @@ interface Item extends Product{
 }
 
 interface Cart {
-  userId: string,
+  username: string,
   items: Item[]
 }
 
