@@ -6,6 +6,11 @@ const createProduct = async (product: Product): Promise<Product> => {
   return result;
 };
 
-const productService = { createProduct };
+const getProducts = async(): Promise<Product[]> => {
+  const result = productRepository.getProducts();
+  return result;
+}
+
+const productService = { createProduct, getProducts };
 
 export default productService;

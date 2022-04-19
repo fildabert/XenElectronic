@@ -21,4 +21,10 @@ productController.post<{}, ApiResponse<any>, Product >('/', ...productValidators
   }
 });
 
+productController.get<{}, ApiResponse<Product[]>>('/', async (req, res) => {
+  const products = await productService.getProducts();
+
+  return res.status(200).json({ message: 'Products fetched', data: products });
+});
+
 export default productController;

@@ -8,6 +8,14 @@ enum CartStatus {
   DONE = 'DONE'
 }
 
+interface ProductPayload {
+  productId: string;
+  quantity: number;
+}
+interface CreateCartPayload {
+  userId: string,
+  items: ProductPayload[]
+}
 interface Item extends Product{
   quantity: number
 }
@@ -20,4 +28,5 @@ interface Cart {
 export {
   Cart,
   CartStatus,
+  CreateCartPayload,
 };

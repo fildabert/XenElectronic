@@ -22,6 +22,7 @@ export const productSchema = new Schema(
       required: true,
     },
   },
+  { versionKey: false },
 );
 
 export const ProductModel: Model<ProductDocument> = mongoose.model('product', productSchema);

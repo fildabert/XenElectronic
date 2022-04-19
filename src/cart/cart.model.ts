@@ -1,15 +1,16 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
-import { productSchema } from '../product/product.model';
 import { Cart, CartStatus } from './cart.type';
 
 export type CartDocument = Cart & Document;
 
 const itemsSchema = new Schema({
-  ...productSchema.obj,
+  productId: {
+    type: String,
+  },
   quantity: {
     type: Number,
   },
-});
+}, { _id: false });
 
 const cartSchema = new Schema(
   {
@@ -27,6 +28,7 @@ const cartSchema = new Schema(
       enum: Object.values(CartStatus),
     },
   },
+  { versionKey: false },
 );
 
 export const CartModel: Model<CartDocument> = mongoose.model('cart', cartSchema);

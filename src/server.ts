@@ -13,7 +13,6 @@ app.use(express.json());
 app.use('/', routes);
 
 app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
-  console.log('halo2')
   let error = err;
   if (!error.errorCode) {
     error = new AppError(500, 'Internal Server Error');
