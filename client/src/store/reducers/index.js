@@ -71,6 +71,7 @@ const mapUpdateCartToServerToState = (state) => {
 };
 
 const mapCheckoutCartToState = (state) => {
+  localStorage.removeItem('cart');
   return {
     ...state,
     cart: {

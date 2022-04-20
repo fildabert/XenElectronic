@@ -64,6 +64,13 @@ export const checkoutCart = (username) => {
         },
       });
 
+      Swal.fire({
+        title: 'Continue Payment',
+        text: 'You will be redirected to a new website, please complete your payment there',
+      });
+      setTimeout(() => {
+        window.open(response.data.data, '_blank');
+      }, 2000);
       dispatch({ type: 'checkoutCart' });
     } catch (error) {
       errorHandler(error);
