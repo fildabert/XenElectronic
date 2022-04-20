@@ -23,7 +23,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "echo \"Running pre-push hooks\"",
-      "pre-push": "cd server && npm run test:cov"
+      "pre-push": "echo \"asd \""
     }
   }
 }
