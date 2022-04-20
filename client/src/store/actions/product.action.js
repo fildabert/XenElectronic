@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { BASE_URL } from '../store.constant';
 
 export const fetchProducts = () => {
   return async (dispatch) => {
     const response = await axios({
       method: 'GET',
-      url: 'http://localhost:3030/product',
+      url: `${BASE_URL}/product`,
     });
     dispatch(setProducts(response.data));
   };

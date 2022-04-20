@@ -55,6 +55,9 @@ const mapRemoveFromCartToState = (state, productId) => {
 };
 
 const mapFetchCartToState = (state, cart) => {
+  if (!cart) {
+    return { ...state };
+  }
   console.log(state);
   cart.items = cart.items.map((item) => {
     const product = state.products.find(

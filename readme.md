@@ -57,4 +57,5 @@ npm run test:cov
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+client deployed to https://xenelectronic.fildabert.com/
+server deployed to https://xenelectronic-filbert.herokuapp.com

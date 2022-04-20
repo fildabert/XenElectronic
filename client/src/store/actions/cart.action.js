@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import errorHandler from '../../helpers/errorHandler';
+import { BASE_URL } from '../store.constant';
 
 export const addToCart = (productId) => {
   return (dispatch) => {
@@ -18,12 +19,14 @@ export const fetchCart = () => {
   return async (dispatch) => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     if (!cart) {
-      const response = await axios({
-        method: 'GET',
-        url: 'http://localhost:3030/cart/mockUsername',
-      });
-      cart = response.data.data;
-      localStorage.setItem('cart', JSON.stringify(cart));
+      try {
+        const response = await axios({
+          method: 'GET',
+          url: `${BASE_URL}/cart/mockUsername`,
+        });
+        cart = response.data.data;
+        localStorage.setItem('cart', JSON.stringify(cart));
+      } catch (error) {}
     }
     dispatch({ type: 'fetchCart', payload: cart });
   };
@@ -39,7 +42,7 @@ export const updateCartToServer = (cart) => {
     });
     try {
       await axios({
-        url: 'http://localhost:3030/cart',
+        url: `${BASE_URL}/cart`,
         method: 'POST',
         data: {
           username: 'mockUsername',
@@ -58,7 +61,7 @@ export const checkoutCart = (username) => {
     try {
       const response = await axios({
         method: 'POST',
-        url: 'http://localhost:3030/cart/checkout',
+        url: `${BASE_URL}/cart/checkout`,
         data: {
           username,
         },

@@ -29,7 +29,8 @@ app.get<{}, {data: string}, {asd: string}>('/ping', async (req, res) => {
 });
 
 export const start = async () => {
-  await mongoose.connect(process.env.MONGO_URL || '');
+  // await mongoose.connect(process.env.MONGO_URL || '');
+  await mongoose.connect('mongodb://localhost:27017/xendit');
 
   app.listen(port, () => {
     console.log(`Server started at port ${port}`);
