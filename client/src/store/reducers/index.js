@@ -2,7 +2,7 @@ const initialState = {
   products: [],
   productCategoryMap: {},
   cart: {
-    username: '',
+    username: 'mockUsername',
     items: [],
     status: '',
   },
@@ -55,7 +55,30 @@ const mapRemoveFromCartToState = (state, productId) => {
 };
 
 const mapFetchCartToState = (state, cart) => {
+  console.log(state);
+  cart.items = cart.items.map((item) => {
+    const product = state.products.find(
+      (product) => product.id === item.productId
+    );
+    return { ...item, product };
+  });
+  console.log(cart);
   return { ...state, cart };
+};
+
+const mapUpdateCartToServerToState = (state) => {
+  return { ...state };
+};
+
+const mapCheckoutCartToState = (state) => {
+  return {
+    ...state,
+    cart: {
+      username: 'mockUsername',
+      items: [],
+      status: '',
+    },
+  };
 };
 
 function reducer(state = initialState, action) {
@@ -73,7 +96,6 @@ function reducer(state = initialState, action) {
         },
         { None: action.payload }
       );
-
       return { ...state, products: action.payload, productCategoryMap };
 
     case 'selectCategory':
@@ -85,6 +107,10 @@ function reducer(state = initialState, action) {
       return mapRemoveFromCartToState(state, action.payload);
     case 'fetchCart':
       return mapFetchCartToState(state, action.payload);
+    case 'updateCartToServer':
+      return mapUpdateCartToServerToState(state);
+    case 'checkoutCart':
+      return mapCheckoutCartToState(state);
     default:
       return state;
   }

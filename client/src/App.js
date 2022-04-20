@@ -6,13 +6,16 @@ import NavBar from './components/NavBar';
 import CartScreen from './screens/CartScreen';
 import { useDispatch } from 'react-redux';
 import { fetchCart } from './store/actions/cart.action';
+import { fetchProducts } from './store/actions/product.action';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCart());
-  });
+    dispatch(fetchProducts()).then(() => {
+      dispatch(fetchCart());
+    });
+  }, []);
 
   return (
     <div className="App">

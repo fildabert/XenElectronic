@@ -8,10 +8,6 @@ export default function ProductScreen({}) {
   const dispatch = useDispatch()
   const { products, productCategoryMap } = useSelector((state) => state)
   
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [])
-  
   const onSelectCategory = (event) => {
     dispatch(selectCategory(event.target.value))
   }

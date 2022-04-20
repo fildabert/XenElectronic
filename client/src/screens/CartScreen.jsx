@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../components/CartItem";
+import { checkoutCart } from "../store/actions/cart.action";
 
 export default function CartScreen() {
-  // const dispatch = useDispatch()
-  const { cart } = useSelector((state) => state)
+  const dispatch = useDispatch()
+  const { cart, username } = useSelector((state) => state)
 
   const buildCartItemHeader = () => {
     return (
@@ -31,6 +32,10 @@ export default function CartScreen() {
     )
   }
 
+  const checkout = () => {
+    dispatch(checkoutCart(username));
+  }
+
   return (
     <div>
       <h2>Cart</h2>
@@ -40,6 +45,8 @@ export default function CartScreen() {
           { buildCartItemList() } 
         </tbody>
       </table>
+
+      <button onClick={checkout}>Checkout</button>
     </div>
   )
 }

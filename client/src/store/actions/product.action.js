@@ -1,12 +1,12 @@
+import axios from 'axios';
+
 export const fetchProducts = () => {
   return async (dispatch) => {
-    const response = await fetch('http://localhost:3030/product', {
+    const response = await axios({
       method: 'GET',
+      url: 'http://localhost:3030/product',
     });
-
-    const products = await response.json();
-    console.log(products);
-    dispatch(setProducts(products));
+    dispatch(setProducts(response.data));
   };
 };
 

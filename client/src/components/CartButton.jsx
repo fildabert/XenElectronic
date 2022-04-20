@@ -10,10 +10,9 @@ export default function CartButton(props) {
   useEffect(() => {
     const delayBeforeDispatch = setTimeout(() => {
       if(buttonToggle > 0) {
-        console.log('mantap', cart);
         dispatch(updateCartToServer(cart));
       }
-    }, 1500);
+    }, 500);
 
     return () => clearTimeout(delayBeforeDispatch);
   }, [buttonToggle]);
