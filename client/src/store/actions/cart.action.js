@@ -16,3 +16,9 @@ export const fetchCart = () => {
     dispatch({ type: 'fetchCart', payload: cart });
   };
 };
+
+export const updateCartToServer = (cart) => {
+  return async (dispatch) => {
+    console.log(cart);
+  };
+};
