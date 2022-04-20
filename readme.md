@@ -30,9 +30,30 @@ client
 server
 ```
 
+## Prerequisites before running the program in your local machine
+
+create a file named `.env` inside `server` directory and insert these variables
+
+```
+PORT={YOUR_PORT}
+MONGO_URL={YOUR_MONGO_URL}
+XENDIT_SECRET_KEY={YOUR_XENDIT_API_KEY}
+```
+
+## Running the program in your local machine
+
+To run the program, run `npm start` in both directories below
+
+```
+client
+server
+```
+
 ## Running the tests with coverage
 
+```
 npm run test:cov
+```
 
 ## Deployment
 
