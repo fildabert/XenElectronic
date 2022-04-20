@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.19.0"
+  },
   "scripts": {
     "test": "jest --verbose --maxWorkers=1",
     "test:cov": "npm run test -- --coverage",
@@ -10,8 +13,10 @@
     "watch-ts": "tsc -w",
     "start": "node dist/server.js",
     "build": "tsc",
+    "postinstall": "tsc",
     "dev:watch": "nodemon --watch src -e ts --exec npm run start",
-    "dev:debug": "nodemon --inspect src/server.ts"
+    "dev:debug": "nodemon --inspect src/server.ts",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "repository": {
     "type": "git",

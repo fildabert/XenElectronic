@@ -20,7 +20,7 @@ app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
   if (!error.errorCode) {
     error = new AppError(ErrorCode.INTERNAL_SERVER_ERROR);
   }
-  // console.log(error);
+  console.log(error);
   res.status(error.errorCode).json({ message: error.message, data: error.data });
 });
 

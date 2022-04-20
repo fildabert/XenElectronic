@@ -12,7 +12,7 @@ export default function CartButton(props) {
       if(buttonToggle > 0) {
         dispatch(updateCartToServer(cart));
       }
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(delayBeforeDispatch);
   }, [buttonToggle]);
