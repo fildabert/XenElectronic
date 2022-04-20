@@ -1,0 +1,28 @@
+{
+  "name": "XenElectronic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fildabert/XenElectronic.git"
+  },
+  "keywords": [],
+  "author": "fildabert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fildabert/XenElectronic/issues"
+  },
+  "homepage": "https://github.com/fildabert/XenElectronic#readme",
+  "devDependencies": {
+    "husky": "^7.0.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "cd server && npm run test:cov"
+    }
+  }
+}
