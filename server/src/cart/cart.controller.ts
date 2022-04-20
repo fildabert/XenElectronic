@@ -34,14 +34,14 @@ cartController.get<GetCartParams, ApiResponse<Cart>>('/:username', ...cartValida
   }
 });
 
-cartController.post<{}, ApiResponse<Cart>, CreateCartPayload >('/checkout', ...cartValidator.checkoutValidator(), async (req, res, next) => {
+cartController.post<{}, ApiResponse<string>, CreateCartPayload >('/checkout', ...cartValidator.checkoutValidator(), async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(new AppError(ErrorCode.VALIDATION_ERRORS, errors.array()));
     }
-    await cartService.checkoutCart(req.body.username);
-    return res.status(201).json({ message: 'Cart checkout successful' });
+    const paymentUrl = await cartService.checkoutCart(req.body.username);
+    return res.status(201).json({ message: 'Cart checkout successful', data: paymentUrl });
   } catch (error) {
     return next(error);
   }

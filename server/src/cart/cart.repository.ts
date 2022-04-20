@@ -34,10 +34,15 @@ const updateCart = async (payload: UpdateCartPayload) => {
 };
 
 const updateCartStatus = async (payload: UpdateCartStatusPayload) => {
-  await CartModel.updateOne(
+  const result = await CartModel.findOneAndUpdate(
     { username: payload.username, status: CartStatus.ACTIVE },
     { status: payload.status },
+    { new: true },
   );
+  if (result) {
+    return convertDocumentToObject(result);
+  }
+  return null;
 };
 
 const cartRepository = {

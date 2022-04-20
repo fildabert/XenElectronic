@@ -1,9 +1,27 @@
+/* eslint-disable max-classes-per-file */
+// eslint-disable-next-line no-unused-vars
+import Xendit from 'xendit-node';
 import AppError, { ErrorCode } from '../../error';
+import productRepository from '../../product/product.repository';
+import productData from '../../product/tests/__mocks__/product.data';
 import cartRepository from '../cart.repository';
 import cartService from '../cart.service';
 import { CartStatus } from '../cart.type';
 import cartData from './__mocks__/cart.data';
 
+jest.mock('xendit-node', () => {
+  class Invoice {
+    // eslint-disable-next-line class-methods-use-this
+    public createInvoice = () => ({
+      invoice_url: 'http://asd',
+    });
+  }
+  class T {
+    public Invoice = Invoice;
+  }
+
+  return T;
+});
 describe('cart.service', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -61,7 +79,12 @@ describe('cart.service', () => {
       cartRepository.findCart = jest
         .fn()
         .mockResolvedValueOnce(cartData.mockActiveCart);
-      cartRepository.updateCartStatus = jest.fn();
+      cartRepository.updateCartStatus = jest
+        .fn()
+        .mockResolvedValueOnce(cartData.mockCheckoutCart);
+      productRepository.getProducts = jest
+        .fn()
+        .mockResolvedValueOnce([productData.productPayload]);
 
       await cartService.checkoutCart(cartData.cartPayload.username);
 
@@ -69,6 +92,23 @@ describe('cart.service', () => {
         username: cartData.cartPayload.username,
         status: CartStatus.DONE,
       });
+    });
+
+    it('should call repository with correct payload', async () => {
+      cartRepository.findCart = jest
+        .fn()
+        .mockResolvedValueOnce(cartData.mockActiveCart);
+      cartRepository.updateCartStatus = jest
+        .fn();
+      productRepository.getProducts = jest
+        .fn()
+        .mockResolvedValueOnce([productData.productPayload]);
+
+      try {
+        await cartService.checkoutCart(cartData.cartPayload.username);
+      } catch (error) {
+        expect(error).toEqual(new AppError(ErrorCode.INTERNAL_SERVER_ERROR));
+      }
     });
 
     it('should throw error if cart is not found', async () => {
