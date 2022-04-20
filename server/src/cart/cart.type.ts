@@ -13,20 +13,25 @@ interface ProductPayload {
   quantity: number;
 }
 interface CreateCartPayload {
-  username: string,
-  items: ProductPayload[]
+  username: string;
+  items: ProductPayload[];
+}
+
+interface GetCartParams {
+  username: string;
 }
 interface Item extends Product{
-  quantity: number
+  quantity: number;
 }
 
 interface Cart {
-  username: string,
-  items: Item[]
+  username: string;
+  items: Item[];
 }
 
 export {
   Cart,
   CartStatus,
   CreateCartPayload,
+  GetCartParams,
 };

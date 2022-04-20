@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 
 const createCartValidator = () => [
   body('username').exists().withMessage('username required').isString()
@@ -8,10 +8,14 @@ const createCartValidator = () => [
     .withMessage('productId must be a string'),
   body('items.*.quantity').exists().withMessage('items.quantity required').isInt()
     .withMessage('quantity must be an int'),
+];
 
+const getCartParams = () => [
+  param('username', 'username must be a string').isString(),
 ];
 
 const cartValidator = {
   createCartValidator,
+  getCartParams,
 };
 export default cartValidator;
