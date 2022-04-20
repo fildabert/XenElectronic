@@ -27,4 +27,5 @@ module.exports = {
     '!**/__mocks__/**',
     '!**/node_modules/**',
   ],
+  globalTeardown: '<rootDir>/test-teardown-globals.js',
 };

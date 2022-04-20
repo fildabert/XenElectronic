@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import routes from './routes';
-import AppError from './error';
+import AppError, { ErrorCode } from './error';
 
 const port = 3030;
 const app = express();
@@ -12,10 +12,11 @@ app.use(express.json());
 
 app.use('/', routes);
 
+// eslint-disable-next-line no-unused-vars
 app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
   let error = err;
   if (!error.errorCode) {
-    error = new AppError(500, 'Internal Server Error');
+    error = new AppError(ErrorCode.INTERNAL_SERVER_ERROR);
   }
   res.status(error.errorCode).json({ message: error.message, data: error.data });
 });
@@ -33,3 +34,5 @@ const start = async () => {
 };
 
 start();
+
+export default app;

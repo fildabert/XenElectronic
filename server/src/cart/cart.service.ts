@@ -1,4 +1,4 @@
-import AppError from '../error';
+import AppError, { ErrorCode } from '../error';
 import cartRepository from './cart.repository';
 import { Cart, CartStatus, CreateCartPayload } from './cart.type';
 
@@ -15,7 +15,7 @@ const upsertCart = async (payload: CreateCartPayload): Promise<Cart | undefined>
 const getCart = async (username: string): Promise<Cart> => {
   const result = await cartRepository.findCart(username);
   if (!result) {
-    throw new AppError(400, 'Cart not found');
+    throw new AppError(ErrorCode.CART_NOT_FOUND);
   }
   return result;
 };
@@ -23,7 +23,7 @@ const getCart = async (username: string): Promise<Cart> => {
 const checkoutCart = async (username: string): Promise<void> => {
   const existingCart = await cartRepository.findCart(username);
   if (!existingCart) {
-    throw new AppError(400, 'Cart not found');
+    throw new AppError(ErrorCode.CART_NOT_FOUND);
   }
   await cartRepository.updateCartStatus({ username, status: CartStatus.DONE });
 };
