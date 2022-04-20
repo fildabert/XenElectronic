@@ -11,7 +11,7 @@ const createCartValidator = () => [
 ];
 
 const getCartParams = () => [
-  param('username', 'username must be a string').isString(),
+  param('username', 'username must be a string').isString().isLength({ min: 5 }),
 ];
 
 const checkoutValidator = () => [

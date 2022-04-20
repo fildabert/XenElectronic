@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --detectOpenHandles",
+    "test": "jest --verbose --maxWorkers=1",
     "test:cov": "npm run test -- --coverage",
     "prestart": "tsc",
     "watch-ts": "tsc -w",

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  Cart, CartStatus, CreateCartPayload, UpdateCartStatusPayload,
+  Cart, CartStatus, CreateCartPayload, UpdateCartPayload, UpdateCartStatusPayload,
 } from './cart.type';
 import { CartDocument, CartModel } from './cart.model';
 
@@ -21,7 +21,7 @@ const createCart = async (payload: CreateCartPayload) => {
   return convertDocumentToObject(result);
 };
 
-const updateCart = async (payload: CreateCartPayload) => {
+const updateCart = async (payload: UpdateCartPayload) => {
   const result = await CartModel.findOneAndUpdate(
     { username: payload.username, status: CartStatus.ACTIVE },
     { items: payload.items },
@@ -34,7 +34,10 @@ const updateCart = async (payload: CreateCartPayload) => {
 };
 
 const updateCartStatus = async (payload: UpdateCartStatusPayload) => {
-  await CartModel.updateOne({ username: payload.username, status: CartStatus.ACTIVE }, { status: payload.status });
+  await CartModel.updateOne(
+    { username: payload.username, status: CartStatus.ACTIVE },
+    { status: payload.status },
+  );
 };
 
 const cartRepository = {

@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable import/prefer-default-export */
-import { Product } from '../product/product.type';
-
 enum CartStatus {
   ACTIVE = 'ACTIVE',
   DONE = 'DONE'
@@ -17,6 +15,8 @@ interface CreateCartPayload {
   items: ProductPayload[];
 }
 
+interface UpdateCartPayload extends CreateCartPayload {}
+
 interface CheckoutPayload {
   username: string;
 }
@@ -29,13 +29,12 @@ interface UpdateCartStatusPayload {
 interface GetCartParams {
   username: string;
 }
-interface Item extends Product{
-  quantity: number;
-}
+interface Item extends ProductPayload {}
 
 interface Cart {
   username: string;
   items: Item[];
+  status: CartStatus;
 }
 
 export {
@@ -44,4 +43,5 @@ export {
   CreateCartPayload,
   GetCartParams,
   UpdateCartStatusPayload,
+  UpdateCartPayload,
 };

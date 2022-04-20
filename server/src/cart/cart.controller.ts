@@ -28,7 +28,7 @@ cartController.get<GetCartParams, ApiResponse<Cart>>('/:username', ...cartValida
       return next(new AppError(ErrorCode.VALIDATION_ERRORS, errors.array()));
     }
     const cart = await cartService.getCart(req.params.username);
-    return res.status(201).json({ message: 'Cart fetched', data: cart });
+    return res.status(200).json({ message: 'Cart fetched', data: cart });
   } catch (error) {
     return next(error);
   }
