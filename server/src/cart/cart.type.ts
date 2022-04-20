@@ -17,6 +17,15 @@ interface CreateCartPayload {
   items: ProductPayload[];
 }
 
+interface CheckoutPayload {
+  username: string;
+}
+
+interface UpdateCartStatusPayload {
+  username: string;
+  status: CartStatus;
+}
+
 interface GetCartParams {
   username: string;
 }
@@ -34,4 +43,5 @@ export {
   CartStatus,
   CreateCartPayload,
   GetCartParams,
+  UpdateCartStatusPayload,
 };

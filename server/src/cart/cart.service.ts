@@ -1,11 +1,15 @@
 import AppError from '../error';
 import cartRepository from './cart.repository';
-import { Cart, CreateCartPayload } from './cart.type';
+import { Cart, CartStatus, CreateCartPayload } from './cart.type';
 
-const createCart = async (payload: CreateCartPayload): Promise<Cart> => {
-  const result = await cartRepository.createCart(payload);
+// eslint-disable-next-line consistent-return
+const upsertCart = async (payload: CreateCartPayload): Promise<Cart | undefined> => {
+  const existingCart = await cartRepository.findCart(payload.username);
+  if (!existingCart) {
+    return cartRepository.createCart(payload);
+  }
 
-  return result;
+  await cartRepository.updateCart(payload);
 };
 
 const getCart = async (username: string): Promise<Cart> => {
@@ -16,9 +20,18 @@ const getCart = async (username: string): Promise<Cart> => {
   return result;
 };
 
+const checkoutCart = async (username: string): Promise<void> => {
+  const existingCart = await cartRepository.findCart(username);
+  if (!existingCart) {
+    throw new AppError(400, 'Cart not found');
+  }
+  await cartRepository.updateCartStatus({ username, status: CartStatus.DONE });
+};
+
 const cartService = {
-  createCart,
+  upsertCart,
   getCart,
+  checkoutCart,
 };
 
 export default cartService;

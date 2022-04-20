@@ -14,14 +14,14 @@ cartController.post<{}, ApiResponse<Cart>, CreateCartPayload >('/', ...cartValid
     if (!errors.isEmpty()) {
       return next(new AppError(400, 'Validation Errors', errors.array()));
     }
-    const cart = await cartService.createCart(req.body);
-    return res.status(201).json({ message: 'Cart created', data: cart });
+    const cart = await cartService.upsertCart(req.body);
+    return res.status(201).json({ message: 'Cart upserted', data: cart });
   } catch (error) {
     return next(error);
   }
 });
 
-cartController.get<GetCartParams, ApiResponse<Cart>, CreateCartPayload >('/:username', ...cartValidator.getCartParams(), async (req, res, next) => {
+cartController.get<GetCartParams, ApiResponse<Cart>>('/:username', ...cartValidator.getCartParams(), async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -29,6 +29,19 @@ cartController.get<GetCartParams, ApiResponse<Cart>, CreateCartPayload >('/:user
     }
     const cart = await cartService.getCart(req.params.username);
     return res.status(201).json({ message: 'Cart fetched', data: cart });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+cartController.post<{}, ApiResponse<Cart>, CreateCartPayload >('/checkout', ...cartValidator.checkoutValidator(), async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new AppError(400, 'Validation Errors', errors.array()));
+    }
+    await cartService.checkoutCart(req.body.username);
+    return res.status(201).json({ message: 'Cart checkout successful' });
   } catch (error) {
     return next(error);
   }
