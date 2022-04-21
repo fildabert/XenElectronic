@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, selectCategory } from '../store/actions/product.action';
+import { selectCategory } from '../store/actions/product.action';
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 

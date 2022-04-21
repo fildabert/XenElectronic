@@ -38,6 +38,7 @@ create a file named `.env` inside `server` directory and insert these variables
 PORT={YOUR_PORT}
 MONGO_URL={YOUR_MONGO_URL}
 XENDIT_SECRET_KEY={YOUR_XENDIT_API_KEY}
+edit BASE_URL in ./client/src/store/store.constant.js to your localhost port
 ```
 
 ## Running the program in your local machine
