@@ -1,3 +1,5 @@
+import { EVENTS } from '../store.constant';
+
 const initialState = {
   products: [],
   productCategoryMap: {},
@@ -8,6 +10,26 @@ const initialState = {
   },
   username: 'mockUsername',
   isLoading: false,
+};
+
+const mapFetchProductsToState = (state, products) => {
+  const productCategoryMap = products.reduce(
+    (map, product) => {
+      const { category } = product;
+      if (map[category]) {
+        map[category].push(product);
+      } else {
+        map[category] = [product];
+      }
+      return map;
+    },
+    { None: products }
+  );
+  return { ...state, products: products, productCategoryMap };
+};
+
+const mapSelectCategoryToState = (state, category) => {
+  return { ...state, products: state.productCategoryMap[category] };
 };
 
 const mapAddToCartToState = (state, productId) => {
@@ -58,14 +80,12 @@ const mapFetchCartToState = (state, cart) => {
   if (!cart) {
     return { ...state };
   }
-  console.log(state);
   cart.items = cart.items.map((item) => {
     const product = state.products.find(
       (product) => product.id === item.productId
     );
     return { ...item, product };
   });
-  console.log(cart);
   return { ...state, cart };
 };
 
@@ -85,36 +105,28 @@ const mapCheckoutCartToState = (state) => {
   };
 };
 
+const mapIsLoadingToState = (state, loading) => {
+  return { ...state, isLoading: loading };
+};
+
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'fetchProducts':
-      const productCategoryMap = action.payload.reduce(
-        (map, product) => {
-          const { category } = product;
-          if (map[category]) {
-            map[category].push(product);
-          } else {
-            map[category] = [product];
-          }
-          return map;
-        },
-        { None: action.payload }
-      );
-      return { ...state, products: action.payload, productCategoryMap };
-
-    case 'selectCategory':
-      return { ...state, products: state.productCategoryMap[action.payload] };
-
-    case 'addToCart':
+    case EVENTS.FETCH_PRODUCTS:
+      return mapFetchProductsToState(state, action.payload);
+    case EVENTS.SELECT_CATEGORY:
+      return mapSelectCategoryToState(state, action.payload);
+    case EVENTS.ADD_TO_CART:
       return mapAddToCartToState(state, action.payload);
-    case 'removeFromCart':
+    case EVENTS.REMOVE_FROM_CART:
       return mapRemoveFromCartToState(state, action.payload);
-    case 'fetchCart':
+    case EVENTS.FETCH_CART:
       return mapFetchCartToState(state, action.payload);
-    case 'updateCartToServer':
+    case EVENTS.UPDATE_CART_TO_SERVER:
       return mapUpdateCartToServerToState(state);
-    case 'checkoutCart':
+    case EVENTS.CHECKOUT_CART:
       return mapCheckoutCartToState(state);
+    case EVENTS.IS_LOADING:
+      return mapIsLoadingToState(state, action.payload);
     default:
       return state;
   }

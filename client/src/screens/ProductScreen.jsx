@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, selectCategory } from '../store/actions/product.action';
 import Product from "../components/Product";
+import Loader from "../components/Loader";
 
 
 export default function ProductScreen({}) {
   const dispatch = useDispatch()
-  const { products, productCategoryMap } = useSelector((state) => state)
+  const { products, productCategoryMap, isLoading } = useSelector((state) => state)
   
   const onSelectCategory = (event) => {
     dispatch(selectCategory(event.target.value))
@@ -16,7 +17,7 @@ export default function ProductScreen({}) {
   return (
     <>
       <h2>Products</h2>
-
+      { isLoading && <Loader /> }
       {
         products.length > 0 && (
           <>

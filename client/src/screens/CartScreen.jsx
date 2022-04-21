@@ -1,11 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../components/CartItem";
 import errorHandler from "../helpers/errorHandler";
-import { checkoutCart } from "../store/actions/cart.action";
+import { checkoutCart, fetchCart } from "../store/actions/cart.action";
+import Loader from "../components/Loader";
+import { useEffect } from "react";
 
 export default function CartScreen() {
-  const dispatch = useDispatch()
-  const { cart, username } = useSelector((state) => state)
+  const dispatch = useDispatch();
+  const { cart, username, isLoading } = useSelector((state) => state);
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
 
   const buildCartItemHeader = () => {
     return (
@@ -50,6 +56,7 @@ export default function CartScreen() {
   return (
     <div>
       <h2>Cart</h2>
+      { isLoading && <Loader /> }
       <table>
         { buildCartItemHeader() }
         <tbody>

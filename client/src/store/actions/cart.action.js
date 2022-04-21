@@ -1,22 +1,23 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import errorHandler from '../../helpers/errorHandler';
-import { BASE_URL } from '../store.constant';
+import { BASE_URL, EVENTS } from '../store.constant';
 
 export const addToCart = (productId) => {
   return (dispatch) => {
-    dispatch({ type: 'addToCart', payload: productId });
+    dispatch({ type: EVENTS.ADD_TO_CART, payload: productId });
   };
 };
 
 export const removeFromCart = (productId) => {
   return (dispatch) => {
-    dispatch({ type: 'removeFromCart', payload: productId });
+    dispatch({ type: EVENTS.REMOVE_FROM_CART, payload: productId });
   };
 };
 
 export const fetchCart = () => {
   return async (dispatch) => {
+    dispatch({ type: EVENTS.IS_LOADING, payload: true });
     let cart = JSON.parse(localStorage.getItem('cart'));
     if (!cart) {
       try {
@@ -28,7 +29,8 @@ export const fetchCart = () => {
         localStorage.setItem('cart', JSON.stringify(cart));
       } catch (error) {}
     }
-    dispatch({ type: 'fetchCart', payload: cart });
+    dispatch({ type: EVENTS.IS_LOADING, payload: false });
+    dispatch({ type: EVENTS.FETCH_CART, payload: cart });
   };
 };
 
@@ -52,12 +54,13 @@ export const updateCartToServer = (cart) => {
     } catch (error) {
       errorHandler(error);
     }
-    dispatch({ type: 'updateCartToServer', payload: '' });
+    dispatch({ type: EVENTS.UPDATE_CART_TO_SERVER, payload: '' });
   };
 };
 
 export const checkoutCart = (username) => {
   return async (dispatch) => {
+    dispatch({ type: EVENTS.IS_LOADING, payload: true });
     try {
       const response = await axios({
         method: 'POST',
@@ -74,9 +77,10 @@ export const checkoutCart = (username) => {
       setTimeout(() => {
         window.open(response.data.data, '_blank');
       }, 2000);
-      dispatch({ type: 'checkoutCart' });
+      dispatch({ type: EVENTS.CHECKOUT_CART });
     } catch (error) {
       errorHandler(error);
     }
+    dispatch({ type: EVENTS.IS_LOADING, payload: false });
   };
 };
