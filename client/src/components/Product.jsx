@@ -1,6 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { addToCart, removeFromCart } from "../store/actions/cart.action";
+import { useSelector } from "react-redux";
 import CartButton from "./CartButton";
 
 export default function Product(props) {

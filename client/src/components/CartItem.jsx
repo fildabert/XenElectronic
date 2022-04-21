@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "../store/actions/cart.action";
 import CartButton from "./CartButton";
 
 export default function CartItem(props) {
